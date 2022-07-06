@@ -13,11 +13,11 @@ public protocol AWSAuthServiceBehavior: AnyObject {
 
     func getCredentialsProvider() -> CredentialsProvider
 
-    @available(*, deprecated, message: "Use getIdentityID(completion:) instead")
-    func getIdentityId() -> Result<String, AuthError>
-
-    @available(*, deprecated, message: "Use getUserPoolAccessToken(completion:) instead")
-    func getToken() -> Result<String, AuthError>
+//    @available(*, deprecated, message: "Use getIdentityID(completion:) instead")
+//    func getIdentityId() -> Result<String, AuthError>
+//
+//    @available(*, deprecated, message: "Use getUserPoolAccessToken(completion:) instead")
+//    func getToken() -> Result<String, AuthError>
 
     func getTokenClaims(tokenString: String) -> Result<[String: AnyObject], AuthError>
 
@@ -28,6 +28,9 @@ public protocol AWSAuthServiceBehavior: AnyObject {
     /// Retrieves the token from the Auth token provider
     /// - Parameter completion: Completion handler defined for the input `Result<String, AuthError>`
     func getUserPoolAccessToken(completion: @escaping (Result<String, AuthError>) -> Void)
+    
+    /// Retrieves the token from the Auth token provider
+    func getUserPoolAccessToken() async throws -> String
 }
 
 extension AWSAuthServiceBehavior {
@@ -55,21 +58,21 @@ extension AWSAuthServiceBehavior {
     /// - Parameter completion: Completion handler defined for the input `Result<String, AuthError>`
     /// - Note: This default implementation was added to prevent a breaking change,
     /// and will be removed when the blocking API versions are removed.
-    public func getIdentityID(completion: @escaping (Result<String, AuthError>) -> Void) {
-        DispatchQueue.global().async { [weak self] in
-            guard let identityIdResult = self?.getIdentityId() else { return }
-            completion(identityIdResult)
-        }
-    }
+//    public func getIdentityID(completion: @escaping (Result<String, AuthError>) -> Void) {
+//        DispatchQueue.global().async { [weak self] in
+//            guard let identityIdResult = self?.getIdentityId() else { return }
+//            completion(identityIdResult)
+//        }
+//    }
 
     /// Retrieves the token from the Auth token provider
     /// - Parameter completion: Completion handler defined for the input `Result<String, AuthError>`
     /// - Note: This default implementation was added to prevent a breaking change,
     ///  and will be removed when the blocking API versions are removed.
-    public func getUserPoolAccessToken(completion: @escaping (Result<String, AuthError>) -> Void) {
-        DispatchQueue.global().async { [weak self] in
-            guard let tokenResult = self?.getToken() else { return }
-            completion(tokenResult)
-        }
-    }
+//    public func getUserPoolAccessToken(completion: @escaping (Result<String, AuthError>) -> Void) {
+//        DispatchQueue.global().async { [weak self] in
+//            guard let tokenResult = self?.getToken() else { return }
+//            completion(tokenResult)
+//        }
+//    }
 }

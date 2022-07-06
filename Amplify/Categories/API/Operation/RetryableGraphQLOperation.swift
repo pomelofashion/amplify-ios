@@ -21,7 +21,7 @@ public protocol RetryableGraphQLOperationBehavior: Operation, DefaultLogger {
     /// GraphQLOperation concrete type
     associatedtype OperationType: AnyGraphQLOperation
 
-    typealias RequestFactory = () -> GraphQLRequest<Payload>
+    typealias RequestFactory = () async -> GraphQLRequest<Payload>
     typealias OperationFactory = (GraphQLRequest<Payload>, @escaping OperationResultListener) -> OperationType
     typealias OperationResultListener = OperationType.ResultListener
 
@@ -95,7 +95,7 @@ public final class RetryableGraphQLOperation<Payload: Decodable>: Operation, Ret
     public var resultListener: OperationResultListener
     public var operationFactory: OperationFactory
 
-    public init(requestFactory: @escaping () -> GraphQLRequest<Payload>,
+    public init(requestFactory: @escaping () async -> GraphQLRequest<Payload>,
                 maxRetries: Int,
                 resultListener: @escaping OperationResultListener,
                 _ operationFactory: @escaping OperationFactory) {
@@ -105,7 +105,7 @@ public final class RetryableGraphQLOperation<Payload: Decodable>: Operation, Ret
         self.operationFactory = operationFactory
         self.resultListener = resultListener
     }
-    public override func main() {
+    public override func main() async {
         start(request: requestFactory())
     }
 

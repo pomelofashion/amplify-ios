@@ -17,16 +17,13 @@ class AuthTokenProviderWrapper: AuthTokenProvider {
         self.wrappedAuthTokenProvider = tokenAuthProvider
     }
 
-    func getToken() -> Result<String, AuthError> {
+    func getToken() async throws -> String {
         let result = wrappedAuthTokenProvider.getLatestAuthToken()
         switch result {
         case .success(let result):
-            return .success(result)
+            return result
         case .failure(let error):
-            return .failure(AuthError.service("Unable to get latest auth token",
-                                              "",
-                                              error))
+            throw error
         }
     }
-
 }

@@ -198,11 +198,11 @@ final class IncomingAsyncSubscriptionEventPublisher: AmplifyCancellable {
                                api: APICategoryGraphQLBehavior,
                                auth: AuthCategoryBehavior?,
                                authType: AWSAuthorizationType?,
-                               awsAuthService: AWSAuthServiceBehavior) -> GraphQLRequest<Payload> {
+                               awsAuthService: AWSAuthServiceBehavior) async throws -> GraphQLRequest<Payload> {
         let request: GraphQLRequest<Payload>
         if modelSchema.hasAuthenticationRules,
             let _ = auth,
-            case .success(let tokenString) = awsAuthService.getToken(),
+            let tokenString = try? await awsAuthService.getUserPoolAccessToken(),
             case .success(let claims) = awsAuthService.getTokenClaims(tokenString: tokenString) {
             request = GraphQLRequest<Payload>.subscription(to: modelSchema,
                                                            subscriptionType: subscriptionType,
