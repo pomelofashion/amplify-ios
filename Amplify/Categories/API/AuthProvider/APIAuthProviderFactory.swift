@@ -27,6 +27,7 @@ open class APIAuthProviderFactory {
 public protocol AmplifyAuthTokenProvider {
     typealias AuthToken = String
 
+    //TODO: Remove this after datastore dependencies are removed.
     @available(*, deprecated, message: "Use getUserPoolAccessToken() instead")
     func getLatestAuthToken() -> Result<AuthToken, Error>
 
