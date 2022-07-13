@@ -19,9 +19,6 @@ public protocol AWSAuthServiceBehavior: AnyObject {
      `IncomingAsyncSubscriptionEventPublisher`
         - File Path: `AmplifyPlugins/DataStore/AWSDataStoreCategoryPlugin/Sync/SubscriptionSync/IncomingAsyncSubscriptionEventPublisher.swift`
         - Uses: `getToken()`
-     `AWSOIDCAuthProvider`
-        - File Path: `AmplifyPlugins/API/AWSAPICategoryPlugin/SubscriptionFactory/AWSOIDCAuthProvider.swift`
-        - Uses: `getToken()`
      */
     @available(*, deprecated, message: "Use getUserPoolAccessToken() instead")
     func getToken() -> Result<String, AuthError>
